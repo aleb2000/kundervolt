@@ -5,13 +5,12 @@
 //
 // The full licence notice is available in the included README.md
 
-#include "asm/fpu/api.h"
 #include "common.h"
-#include <linux/module.h>
-#include <linux/kernel.h>
 #include "fp_util.h"
 #include "ftoa/ftoa.h"
 #include "test.h"
+#include <linux/module.h>
+#include <linux/kernel.h>
 
 #define VOLTAGE_HIGH_BITS_MASK 0xFFE00000
 #define VOLTAGE_RANGE_MIN -999

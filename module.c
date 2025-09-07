@@ -5,14 +5,11 @@
 //
 // The full licence notice is available in the included README.md
 
-#include "asm/processor.h"
 #include "common.h"
-#include "linux/cpumask.h"
-#include "linux/printk.h"
-#include <linux/module.h>
-#include <linux/kernel.h>
 #include "test.h"
 #include "fp_util.h"
+#include <linux/module.h>
+#include <linux/kernel.h>
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Alessandro Balducci");
