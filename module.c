@@ -52,13 +52,13 @@ static intoff_t read_voltage_offset(enum plane_index idx) {
 	uint64_t read_request = build_msr_request(idx, MSR_OP_READ, 0);
 	int res = wrmsrq_safe(MSR_ADDR_VOLTAGE, read_request);
 	if (res) {
-		pr_err("Failed to write read request to msr\n");
+		pr_err(LOGHDR "Failed to write read request to msr\n");
 		return 0;
 	}
 	uint64_t offset = 0;
 	res = rdmsrq_safe(MSR_ADDR_VOLTAGE, &offset);
 	if (res) {
-		pr_err("Failed to read msr\n");
+		pr_err(LOGHDR "Failed to read msr\n");
 	}
 
 	return offset;
@@ -69,12 +69,10 @@ static void write_voltage_offset(enum plane_index idx, intoff_t offset) {
 		return;
 	}
 
-	pr_info("Writing offset 0x%x to voltage MSR\n", offset);
 	uint64_t write_request = build_msr_request(idx, MSR_OP_WRITE, offset);
-	pr_info("Write request 0x%llx\n", write_request);
 	int res = wrmsrq_safe(MSR_ADDR_VOLTAGE, write_request);
 	if (res) {
-		pr_err("Failed to write write request to msr\n");
+		pr_err(LOGHDR "Failed to write write request to msr: %llx\n", write_request);
 	}
 }
 
@@ -100,12 +98,11 @@ static ssize_t offsets_show(struct kobject* kobj, struct kobj_attribute* attr,
 							char* buf) {
 	enum plane_index idx = decode_plane_index(attr);
 	if (idx == PLANE_INDEX_UNKNOWN) {
-		pr_err("Unknown plane index, how did we get here?\n");
+		pr_err(LOGHDR "Unknown plane index, how did we get here?\n");
 		return -EINVAL;
 	}
 
 	intoff_t offset = read_voltage_offset(idx);
-	pr_info("Read offset 0x%x\n", offset);
 
 	return offset_int_to_mv_str(buf, PAGE_SIZE, offset);
 }
@@ -114,7 +111,7 @@ static ssize_t offsets_store(struct kobject* kobj, struct kobj_attribute* attr,
 							 const char* buf, size_t count) {
 	enum plane_index idx = decode_plane_index(attr);
 	if (idx == PLANE_INDEX_UNKNOWN) {
-		pr_err("Unknown plane index, how did we get here?\n");
+		pr_err(LOGHDR "Unknown plane index, how did we get here?\n");
 		return -EINVAL;
 	}
 
@@ -122,17 +119,17 @@ static ssize_t offsets_store(struct kobject* kobj, struct kobj_attribute* attr,
 	int ret = offset_mv_str_to_int(&offset, buf, count);
 
 	if (ret == UERR_RANGE) {
-		pr_err("Voltage offset is outside the valid range [-999, 999].");
+		pr_err(LOGHDR "Voltage offset is outside the valid range [-999, 999].");
 		return -EINVAL;
 	}
 
 	if (offset > 0 || ret == UERR_OVERVOLT) {
-		pr_err("Attempted overvolt, aborting...\n");
+		pr_err(LOGHDR "Attempted overvolt, aborting...\n");
 		return -EINVAL;
 	}
 
 	if (ret) {
-		pr_err("Invalid offset parameter\n");
+		pr_err(LOGHDR "Invalid offset parameter\n");
 		return -EINVAL;
 	}
 
@@ -177,7 +174,7 @@ int run_msr_tests(void);
 static int __init kundervolt_init(void) {
 	int ret = 0;
 
-	pr_info("Initializing kundervolt module\n");
+	pr_info(LOGHDR "Initializing module\n");
 
 	// Verify this is a supported CPU
 	unsigned int cpu = 0;
@@ -185,7 +182,7 @@ static int __init kundervolt_init(void) {
 	for_each_online_cpu(cpu) {
 		cpuinfo = &cpu_data(cpu);
 		if(cpuinfo->x86_vendor != X86_VENDOR_INTEL) {
-			pr_err("This module only works on Intel CPUs\n");
+			pr_err(LOGHDR "This module only works on Intel CPUs\n");
 			return -EPERM;
 		}
 	}
@@ -203,17 +200,17 @@ static int __init kundervolt_init(void) {
 	ret = sysfs_create_group(offsets_kobj, &offsets_attr_group);
 	if (ret) {
 		kobject_put(offsets_kobj);
-		pr_err("Failed to create undervolt offsets sysfs files");
+		pr_err(LOGHDR "Failed to create undervolt offsets sysfs files");
 	}
 
 	if (ret == 0) {
-		pr_info("kundervolt module ready!\n");
+		pr_info(LOGHDR "module ready!\n");
 	}
 	return ret;
 }
 
 static void __exit kundervolt_exit(void) {
-	pr_info("Removing kundervolt module!\n");
+	pr_info(LOGHDR "Removing module!\n");
 	sysfs_remove_group(offsets_kobj, &offsets_attr_group);
 	kobject_put(offsets_kobj);
 }

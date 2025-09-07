@@ -56,17 +56,17 @@ int atof(const char* s, size_t s_size, float* out) {
 				int d = ctod(c);
 				if (d == UERR) {
 					// Invalid character
-					pr_err("Invalid character (%d)\n", c);
+					pr_err(LOGHDR "Invalid character (%d)\n", c);
 					return UERR;
 				}
 
 				int tmp;
 				if (check_mul_overflow(integer, 10, &tmp)) {
-					pr_err("Overflow mul\n");
+					pr_err(LOGHDR "Overflow mul\n");
 					return UERR;
 				}
 				if (check_add_overflow(tmp, d, &integer)) {
-					pr_err("Overflow add\n");
+					pr_err(LOGHDR "Overflow add\n");
 					return UERR;
 				}
 			}
@@ -74,7 +74,7 @@ int atof(const char* s, size_t s_size, float* out) {
 			int d = ctod(c);
 			if (d == UERR) {
 				// Invalid character
-				pr_err("Invalid character (%d)\n", c);
+				pr_err(LOGHDR "Invalid character (%d)\n", c);
 				return UERR;
 			}
 			int divisor = 10;
@@ -82,7 +82,7 @@ int atof(const char* s, size_t s_size, float* out) {
 				divisor *= 10;
 			}
 
-			decimal += (float) d / divisor;
+			decimal += (float)d / divisor;
 			cur_decimal_place++;
 		}
 		i++;
