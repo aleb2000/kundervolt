@@ -10,3 +10,4 @@
 
 #define UERR -1
 #define UERR_OVERVOLT -2
+#define UERR_RANGE -3 /* The voltage offset is out of range */

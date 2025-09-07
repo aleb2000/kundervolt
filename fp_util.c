@@ -14,6 +14,8 @@
 #include "test.h"
 
 #define VOLTAGE_HIGH_BITS_MASK 0xFFE00000
+#define VOLTAGE_RANGE_MIN -999
+#define VOLTAGE_RANGE_MAX 999
 
 // Not the ideal way to round but it's easy
 #define ROUND(x) ((int)((x < 0) ? (x - 0.5) : (x + 0.5)))
@@ -138,6 +140,9 @@ int offset_mv_str_to_int(intoff_t* offset, const char* buf, size_t buf_size) {
 	kernel_fpu_end();
 	if (ret) {
 		return UERR;
+	}
+	if (mv < VOLTAGE_RANGE_MIN || mv > VOLTAGE_RANGE_MAX) {
+		return UERR_RANGE;
 	}
 	if (mv > 0) {
 		return UERR_OVERVOLT;

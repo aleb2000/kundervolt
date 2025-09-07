@@ -121,6 +121,11 @@ static ssize_t offsets_store(struct kobject* kobj, struct kobj_attribute* attr,
 	intoff_t offset;
 	int ret = offset_mv_str_to_int(&offset, buf, count);
 
+	if (ret == UERR_RANGE) {
+		pr_err("Voltage offset is outside the valid range [-999, 999].");
+		return -EINVAL;
+	}
+
 	if (offset > 0 || ret == UERR_OVERVOLT) {
 		pr_err("Attempted overvolt, aborting...\n");
 		return -EINVAL;
