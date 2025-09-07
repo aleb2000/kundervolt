@@ -1,6 +1,6 @@
 # License
 
-Undervolt: a kernel module to undervolt Intel-based Linux system with Secure Boot enabled.
+kundervolt: a kernel module to undervolt Intel-based Linux system with Secure Boot enabled.
 Copyright © 2025  Alessandro Balducci
 
 This program is free software; you can redistribute it and/or
@@ -15,6 +15,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, see [https://www.gnu.org/licenses/](https://www.gnu.org/licenses/).
+
 A copy of the license can be found in [COPYING](COPYING).
 
 ## FloatToAscii

@@ -1,10 +1,12 @@
+# FloatToAscii
+
 Library to convert floats to strings taken from https://github.com/koendv/FloatToAscii
 
 Thanks to Koen De Vleeschauwer.
 
-His code is published under the following license.
-
 # License
+
+The code in this directory is published under the following license:
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
