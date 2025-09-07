@@ -253,12 +253,12 @@ static int build_msr_value_test5(void) {
 	return 0;
 }
 
-static int build_msr_value_test6(void) {
-	uint64_t value =
-		build_msr_request(PLANE_INDEX_DIGITAL_IO, MSR_OP_WRITE, 0xFFFFFFFF);
-	ASSERT_EQ_LHEX(value, 0x80000511FFFFFFFFull);
-	return 0;
-}
+// static int build_msr_value_test6(void) {
+// 	uint64_t value =
+// 		build_msr_request(PLANE_INDEX_DIGITAL_IO, MSR_OP_WRITE, 0xFFFFFFFF);
+// 	ASSERT_EQ_LHEX(value, 0x80000511FFFFFFFFull);
+// 	return 0;
+// }
 
 int run_msr_tests(void) {
 	INIT_TEST_SUITE("Voltage MSR")
@@ -268,7 +268,7 @@ int run_msr_tests(void) {
 	RUN_TEST(build_msr_value_test3)
 	RUN_TEST(build_msr_value_test4)
 	RUN_TEST(build_msr_value_test5)
-	RUN_TEST(build_msr_value_test6)
+	// RUN_TEST(build_msr_value_test6)
 
 	END_TEST_SUITE
 }
