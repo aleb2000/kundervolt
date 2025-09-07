@@ -1,0 +1,11 @@
+uefi
+sign-kmod.sh
+*.cmd
+.cache
+*.o
+*.mod
+*.mod.c
+*.ko
+Module.symvers
+modules.order
+compile_commands.json
