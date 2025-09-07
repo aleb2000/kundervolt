@@ -8,5 +8,5 @@
 
 #pragma once
 
-#define UVLT_ERR -1
-#define UVLT_ERR_OVERVOLT -2
+#define UERR -1
+#define UERR_OVERVOLT -2

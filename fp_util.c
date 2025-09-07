@@ -20,7 +20,7 @@
 
 static int ctod(char c) {
 	if (c < '0' || c > '9') {
-		return UVLT_ERR;
+		return UERR;
 	}
 	return c - '0';
 }
@@ -52,28 +52,28 @@ int atof(const char* s, size_t s_size, float* out) {
 				integer_finished = true;
 			} else {
 				int d = ctod(c);
-				if (d == UVLT_ERR) {
+				if (d == UERR) {
 					// Invalid character
 					pr_err("Invalid character (%d)\n", c);
-					return UVLT_ERR;
+					return UERR;
 				}
 
 				int tmp;
 				if (check_mul_overflow(integer, 10, &tmp)) {
 					pr_err("Overflow mul\n");
-					return UVLT_ERR;
+					return UERR;
 				}
 				if (check_add_overflow(tmp, d, &integer)) {
 					pr_err("Overflow add\n");
-					return UVLT_ERR;
+					return UERR;
 				}
 			}
 		} else {
 			int d = ctod(c);
-			if (d == UVLT_ERR) {
+			if (d == UERR) {
 				// Invalid character
 				pr_err("Invalid character (%d)\n", c);
-				return UVLT_ERR;
+				return UERR;
 			}
 			int divisor = 10;
 			for (int j = 0; j < cur_decimal_place; j++) {
@@ -137,10 +137,10 @@ int offset_mv_str_to_int(intoff_t* offset, const char* buf, size_t buf_size) {
 	int ret = atof(buf, buf_size, &mv);
 	kernel_fpu_end();
 	if (ret) {
-		return UVLT_ERR;
+		return UERR;
 	}
 	if (mv > 0) {
-		return UVLT_ERR_OVERVOLT;
+		return UERR_OVERVOLT;
 	}
 
 	*offset = offset_mv_to_int(mv);

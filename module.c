@@ -121,7 +121,7 @@ static ssize_t offsets_store(struct kobject* kobj, struct kobj_attribute* attr,
 	intoff_t offset;
 	int ret = offset_mv_str_to_int(&offset, buf, count);
 
-	if (offset > 0 || ret == UVLT_ERR_OVERVOLT) {
+	if (offset > 0 || ret == UERR_OVERVOLT) {
 		pr_err("Attempted overvolt, aborting...\n");
 		return -EINVAL;
 	}
