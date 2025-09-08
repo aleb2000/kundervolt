@@ -8,8 +8,14 @@
 
 #pragma once
 
+// When defined, guards are put in place to prevent overvolting
+#define LOCK_OVERVOLT
+
 #define LOGHDR "kundervolt: "
 
 #define UERR -1
-#define UERR_OVERVOLT -2
-#define UERR_RANGE -3 /* The voltage offset is out of range */
+#define UERR_RANGE -2 /* The voltage offset is out of range */
+
+#ifdef LOCK_OVERVOLT
+#define UERR_OVERVOLT -3
+#endif

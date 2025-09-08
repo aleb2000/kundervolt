@@ -62,14 +62,17 @@ static intoff_t read_voltage_offset(enum plane_index idx) {
 }
 
 static void write_voltage_offset(enum plane_index idx, intoff_t offset) {
+#ifdef LOCK_OVERVOLT
 	if (offset > 0) {
 		return;
 	}
+#endif
 
 	uint64_t write_request = build_msr_request(idx, MSR_OP_WRITE, offset);
 	int res = wrmsrq_safe(MSR_ADDR_VOLTAGE, write_request);
 	if (res) {
-		pr_err(LOGHDR "Failed to write write request to msr: %llx\n", write_request);
+		pr_err(LOGHDR "Failed to write write request to msr: %llx\n",
+			   write_request);
 	}
 }
 
@@ -120,10 +123,12 @@ static ssize_t offsets_store(struct kobject* kobj, struct kobj_attribute* attr,
 		return -EINVAL;
 	}
 
+#ifdef LOCK_OVERVOLT
 	if (offset > 0 || ret == UERR_OVERVOLT) {
 		pr_err(LOGHDR "Attempted overvolt, aborting...\n");
 		return -EINVAL;
 	}
+#endif
 
 	if (ret) {
 		pr_err(LOGHDR "Invalid offset parameter\n");
@@ -175,10 +180,10 @@ static int __init kundervolt_init(void) {
 
 	// Verify this is a supported CPU
 	unsigned int cpu = 0;
-	struct cpuinfo_x86 *cpuinfo;
+	struct cpuinfo_x86* cpuinfo;
 	for_each_online_cpu(cpu) {
 		cpuinfo = &cpu_data(cpu);
-		if(cpuinfo->x86_vendor != X86_VENDOR_INTEL) {
+		if (cpuinfo->x86_vendor != X86_VENDOR_INTEL) {
 			pr_err(LOGHDR "This module only works on Intel CPUs\n");
 			return -EPERM;
 		}

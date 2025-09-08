@@ -137,15 +137,20 @@ int offset_mv_str_to_int(intoff_t* offset, const char* buf, size_t buf_size) {
 	kernel_fpu_begin();
 	int ret = atof(buf, buf_size, &mv);
 	kernel_fpu_end();
+
 	if (ret) {
 		return UERR;
 	}
+
 	if (mv < VOLTAGE_RANGE_MIN || mv > VOLTAGE_RANGE_MAX) {
 		return UERR_RANGE;
 	}
+
+#ifdef LOCK_OVERVOLT
 	if (mv > 0) {
 		return UERR_OVERVOLT;
 	}
+#endif
 
 	*offset = offset_mv_to_int(mv);
 	return 0;
