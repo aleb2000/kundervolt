@@ -12,7 +12,7 @@ The files contain information about the voltage offset of the specified componen
 
 ## Important Tips
 
-* The accepted values must include only numeric characters, possibly decimal, and starting with a negative sign for negative offsets. Unexpected characters (such as whitespace) will cause an invalid input error. I.e. f you are writing to the file with `echo` make sure you use the `-n` option to avoid the newline at the end. E.g. `echo -n '-50' | sudo tee /sys/module/kundervolt/offsets/cpu /sys/module/kundervolt/offsets/cache`
+* The accepted values must include only numeric characters, possibly decimal, and starting with a negative sign for negative offsets. Unexpected characters (such as whitespace) will cause an invalid input error. I.e. if you are writing to the file with `echo` make sure you use the `-n` option to avoid the newline at the end. E.g. `echo -n '-50' | sudo tee /sys/module/kundervolt/offsets/cpu /sys/module/kundervolt/offsets/cache`
 * The cpu and cache voltage offsets are separate interfaces, however they cannot have different voltages. The CPU will use the offset with the highest value between the two and appy it to both. As such it is recommended to always give them the same offset value, otherwise one of them will be effectively useless.
 * Overvolting has been explicitly restricted as I am not aware of any real use for it and doing it by mistake could damage hardware. However, the module does technically support overvolting if the restrictions are removed.
 
