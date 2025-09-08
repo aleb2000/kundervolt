@@ -18,7 +18,7 @@ The files contain information about the voltage offset of the specified componen
 
 # Credits
 
-Thanks to (https://github.com/mihic/linux-intel-undervolt)[https://github.com/mihic/linux-intel-undervolt] for the work of listing the publicly known information about Intel's undocumented voltage control.
+Thanks to [https://github.com/mihic/linux-intel-undervolt](https://github.com/mihic/linux-intel-undervolt) for the work of listing the publicly known information about Intel's undocumented voltage control.
 
 # License
 
@@ -42,5 +42,5 @@ A copy of the license can be found in [COPYING](COPYING).
 
 ## FloatToAscii
 
-The library "FloatToAscii" (ftoa) is included in its dedicated directory ./ftoa/ and is published with its own license, described in [./ftoa/README.md](./ftoa/README.md).
+The library "FloatToAscii" (ftoa) is included in its dedicated directory ftoa/ and is published with its own license, described in [ftoa/README.md](ftoa/README.md).
 Minimal modification has been applied to the library to allow for successful compilation inside the kernel module.
